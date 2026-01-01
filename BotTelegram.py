@@ -10,14 +10,16 @@ load_dotenv()
 
 db_url = os.getenv("BOT_TOKIN")
 api_key = os.getenv("CRYPTO_BOT_TOKIN")
+channel_code = os.getenv("CHANNEL_COKE")
 
 print(db_url)
 print(api_key)
+print(channel_code)
 
 # ================= НАСТРОЙКИ =================
 BOT_TOKEN = "db_url"
 CRYPTO_BOT_TOKEN = "api_key"
-CHANNEL_ID = -1000000000000  # ID вашего канала (начинается с -100)
+CHANNEL_ID = channel_code  # ID вашего канала (начинается с -100)
 PRICE_AMOUNT = 10  # Цена подписки
 PRICE_CURRENCY = "USDT"  # Валюта (USDT, TON, BTC)
 
