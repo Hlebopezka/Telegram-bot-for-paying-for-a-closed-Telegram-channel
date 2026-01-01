@@ -1,6 +1,5 @@
 asyncio
 aiogram
-aiogram.filters
 Command
 aiocryptopay
 Networks
