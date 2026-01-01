@@ -3,10 +3,20 @@ import logging
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import Command
 from aiocryptopay import AioCryptoPay, Networks
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+db_url = os.getenv("BOT_TOKIN")
+api_key = os.getenv("CRYPTO_BOT_TOKIN")
+
+print(db_url)
+print(api_key)
 
 # ================= НАСТРОЙКИ =================
-BOT_TOKEN = "BOT_FATHER_TOKEN"
-CRYPTO_BOT_TOKEN = "CRYPTO_BOT_TOKEN"
+BOT_TOKEN = "db_url"
+CRYPTO_BOT_TOKEN = "api_key"
 CHANNEL_ID = -1000000000000  # ID вашего канала (начинается с -100)
 PRICE_AMOUNT = 10  # Цена подписки
 PRICE_CURRENCY = "USDT"  # Валюта (USDT, TON, BTC)
@@ -17,9 +27,9 @@ NETWORK = Networks.MAIN_NET
 # =============================================
 
 # Инициализация
-bot = Bot(token=BOT_TOKEN)
+bot = Bot(token=db_url)
 dp = Dispatcher()
-crypto = AioCryptoPay(token=CRYPTO_BOT_TOKEN, network=NETWORK)
+crypto = AioCryptoPay(token=api_key, network=NETWORK)
 
 logging.basicConfig(level=logging.INFO)
 
