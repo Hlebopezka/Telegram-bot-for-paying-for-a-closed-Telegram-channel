@@ -42,14 +42,14 @@ user_invoices = {}
 @dp.message(Command("start"))
 async def cmd_start(message: types.Message):
     kb = [
-        [types.InlineKeyboardButton(text="💎 Купить доступ (10 USDT)", callback_data="buy_sub")]
+        [types.InlineKeyboardButton(text="💎 Buy access (10 USDT)", callback_data="buy_sub")]
     ]
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=kb)
     
     await message.answer(
         f"Привет, {message.from_user.first_name}!\n"
-        "Это бот для доступа в приватный канал с AI-контентом.\n"
-        "Оплата принимается в криптовалюте анонимно.",
+        "This is a bot for accessing a private channel with hot content.\n" 
+        "Payment is accepted in cryptocurrency anonymously.",
         reply_markup=keyboard
     )
 
@@ -64,19 +64,19 @@ async def process_buy(callback: types.CallbackQuery):
         
         # Клавиатура с ссылкой на оплату и проверкой
         kb = [
-            [types.InlineKeyboardButton(text="🔗 Оплатить", url=invoice.bot_invoice_url)],
-            [types.InlineKeyboardButton(text="✅ Я оплатил", callback_data="check_pay")]
+            [types.InlineKeyboardButton(text="🔗 Pay", url=invoice.bot_invoice_url)],
+            [types.InlineKeyboardButton(text="✅ I paid", callback_data="check_pay")]
         ]
         keyboard = types.InlineKeyboardMarkup(inline_keyboard=kb)
         
         await callback.message.edit_text(
             f"Счет создан!\nСумма: {PRICE_AMOUNT} {PRICE_CURRENCY}\n\n"
-            "1. Нажмите «Оплатить» и переведите средства.\n"
-            "2. После оплаты нажмите «Я оплатил».",
+            "1. Click "Pay" and transfer funds.\n"
+            "2. After payment, click “I have paid”.",
             reply_markup=keyboard
         )
     except Exception as e:
-        await callback.message.answer(f"Ошибка при создании счета: {e}")
+        await callback.message.answer(f"Error creating check: {e}")
         
 @dp.callback_query(F.data == "check_pay")
 async def process_check(callback: types.CallbackQuery):
@@ -84,7 +84,7 @@ async def process_check(callback: types.CallbackQuery):
     invoice_id = user_invoices.get(user_id)
     
     if not invoice_id:
-        await callback.answer("Счет не найден. Попробуйте создать новый.", show_alert=True)
+        await callback.answer("Check not found. Try creating a new one.", show_alert=True)
         return
 
     # Проверяем статус счета через API
@@ -102,22 +102,22 @@ async def process_check(callback: types.CallbackQuery):
             )
             
             await callback.message.edit_text(
-                "✅ Оплата подтверждена!\n\n"
-                f"Вот твоя ссылка на канал: {invite_link.invite_link}\n"
-                "Она действует только один раз."
+                "✅ Payment confirmed!\n\n"
+                f"Here is your channel link: {invite_link.invite_link}\n"
+                "It only works once."
             )
             # Очищаем сохраненный счет
             del user_invoices[user_id]
             
         except Exception as e:
-            await callback.message.answer(f"Оплата прошла, но не удалось создать ссылку. Напишите админу. Ошибка: {e}")
+            await callback.message.answer(f"The payment went through, but the link could not be created. Write to the admin. Error: {e}")
             
     else:
         # Оплата еще не дошла или счет не оплачен
-        await callback.answer("Оплата пока не найдена. Подождите пару минут и нажмите кнопку снова.", show_alert=True)
+        await callback.answer("Payment not found yet. Please wait a few minutes and click the button again.", show_alert=True)
 
 async def main():
-    print("Бот запущен...")
+    print("The bot has been launched...")
     # Удаляем вебхуки и запускаем поллинг
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
